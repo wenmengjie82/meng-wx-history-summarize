@@ -1,21 +1,10 @@
 # 小白使用说明：微信聊天记录自动总结
 
-这份文档写给第一次使用的同事。目标是：在不上传微信数据库、不泄露密钥、不公开聊天记录的前提下，把自己有权访问的微信群聊天记录导出并生成日报或月报。
+这份文档写给第一次使用的同事。目标是：把自己有权访问的微信群聊天记录在本地导出并生成日报或月报。
 
-## 先看安全边界
+## 使用原则
 
-可以做：
-
-- 处理你本人有权访问的微信数据。
-- 在自己电脑本地解密、导出、总结。
-- 只分享最终确认可以公开的总结文件。
-
-不要做：
-
-- 不要把 `.private/`、`outputs/`、数据库文件、聊天导出文件发给别人。
-- 不要把 `wechat_db_keys.json`、`all_keys.json`、passphrase、数据库密钥发给任何人。
-- 不要把没有脱敏的 PDF、JSON、CSV、TXT 推到 GitHub。
-- 不要处理别人未授权的数据。
+只处理你本人有权访问的数据。所有命令默认在本机运行，分享结果前自行确认合规和脱敏状态。
 
 ## 你需要准备什么
 
@@ -49,7 +38,7 @@ Set-ExecutionPolicy -Scope Process -ExecutionPolicy Bypass
 C:\Users\<你的用户名>\Documents\xwechat_files\<你的微信ID>\db_storage
 ```
 
-注意：`<你的用户名>` 和 `<你的微信ID>` 是占位符，不要把真实路径写进公开文档或提交到 GitHub。
+注意：`<你的用户名>` 和 `<你的微信ID>` 是占位符，实际使用时换成你自己的路径。
 
 ## 第三步：解密数据库
 
@@ -73,7 +62,7 @@ outputs/decrypted_databases
 .private/wechat_db_keys.json
 ```
 
-`.private/wechat_db_keys.json` 是敏感文件，不要分享。
+后续脚本会默认读取 `outputs/decrypted_databases`。
 
 ## 第四步：扫描有哪些群
 
@@ -107,7 +96,7 @@ python .\meng-wx-history-summarize-skill\scripts\export_target_chat.py --db-root
 outputs/chat_exports
 ```
 
-会生成 JSONL、CSV、TXT 和导出信息 JSON。它们包含聊天内容，不要上传或公开。
+会生成 JSONL、CSV、TXT 和导出信息 JSON。
 
 ## 第六步：生成月报 PDF
 
@@ -162,37 +151,3 @@ python .\meng-wx-history-summarize-skill\scripts\generate_detailed_report.py --i
 ### 月报为什么只到今天？
 
 脚本只总结本机已经存在的聊天记录。如果今天是 6 月 24 日，`2026-06` 月报只会覆盖 6 月 1 日到 6 月 24 日，不会包含未来日期。
-
-### 可以把结果发给别人吗？
-
-只发你已经人工确认过、可以公开的最终 PDF 或 Markdown。不要发原始导出、数据库、密钥、完整聊天记录。
-
-## GitHub 发布前检查
-
-发布前运行：
-
-```powershell
-git status --short
-```
-
-确认没有这些文件：
-
-```text
-.private/
-outputs/
-*.db
-*.db-wal
-*.db-shm
-*.jsonl
-*.csv
-*.txt
-*.pdf
-```
-
-再搜索敏感词：
-
-```powershell
-rg -n "wxid_|@chatroom|wechat_db_keys|all_keys|C:\\Users|[0-9a-fA-F]{64}"
-```
-
-如果搜索结果里出现真实账号、真实群 ID、密钥或本地路径，先删掉或改成占位符。
