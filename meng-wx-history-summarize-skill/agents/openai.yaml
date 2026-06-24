@@ -1,4 +1,4 @@
 interface:
-  display_name: "Meng WeChat History Summarizer"
-  short_description: "Recover, export, and summarize WeChat history safely"
-  default_prompt: "Use $meng-wx-history-summarize-skill to recover, export, and summarize an authorized WeChat chat."
+  display_name: "微信聊天记录总结"
+  short_description: "安全地本地解密、导出、扫描并生成授权微信聊天日报和月报"
+  default_prompt: "使用 $meng-wx-history-summarize-skill 总结我有权访问的微信聊天记录，并避免泄露密钥、数据库和原始聊天内容。"
