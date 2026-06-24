@@ -1,0 +1,30 @@
+.venv/
+__pycache__/
+.pytest_cache/
+
+# local secrets
+.env
+*.env
+.private/
+**/.private/
+**/wechat_db_keys.json
+**/all_keys.json
+
+# WeChat databases and raw exports
+*.db
+*.db-wal
+*.db-shm
+outputs/
+**/outputs/
+解密后的数据库/
+导出的聊天记录/
+*.jsonl
+*.csv
+*.txt
+*.pdf
+!requirements.txt
+
+# logs and local temp files
+*.log
+*.tmp
+*.bak
